@@ -1,6 +1,6 @@
 package com.galvanize.jokesservice.entities;
 
-public enum JokeCategories {
+public enum JokeCategory {
     TECHNOLOGY("Technology"),
     DADJOKES("Dad Joke"),
     MOMJOKES("Mom Joke"),
@@ -9,7 +9,7 @@ public enum JokeCategories {
 
     private String type;
 
-    JokeCategories(String type) {
+    JokeCategory(String type) {
         this.type = type;
     }
 

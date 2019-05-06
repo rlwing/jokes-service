@@ -13,14 +13,14 @@ public class Joke {
     private String source;
 
     @Column(name = "CATEGORY")
-    private String category;
+    private JokeCategory category;
 
     @Column(name = "JOKE", columnDefinition = "LONGTEXT")
     private String joke;
 
     public Joke() { }
 
-    public Joke(String source, String category, String joke) {
+    public Joke(String source, JokeCategory category, String joke) {
         this.source = source;
         this.category = category;
         this.joke = joke;
@@ -46,11 +46,11 @@ public class Joke {
         this.source = source;
     }
 
-    public String getCategory() {
+    public JokeCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(JokeCategory category) {
         this.category = category;
     }
 
