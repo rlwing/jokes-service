@@ -8,4 +8,6 @@ public class JokesServiceTests {
     //Get a random joke by source
 
     //Get a random joke by category
+
+    //Get a joke by id
 }
