@@ -20,6 +20,12 @@ public class Jokes {
 
     public Jokes() { }
 
+    public Jokes(String source, String category, String joke) {
+        this.source = source;
+        this.category = category;
+        this.joke = joke;
+    }
+
     public Jokes(String source) {
         this.source = source;
     }
