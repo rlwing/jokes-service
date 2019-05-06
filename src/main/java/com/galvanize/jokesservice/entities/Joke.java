@@ -3,16 +3,18 @@ package com.galvanize.jokesservice.entities;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "JOKES")
 public class Joke {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "JOKE_ID", unique = true, nullable = false)
-    private Long JokeId;
+    private Long jokeId;
 
     @Column(name = "SOURCE")
     private String source;
 
-    @Column(name = "CATEGORY")
+    @Column(name = "CATEGORY", columnDefinition = "TEXT")
+    @Convert(converter = CategoryConverter.class)
     private JokeCategory category;
 
     @Column(name = "JOKE", columnDefinition = "LONGTEXT")
@@ -31,11 +33,11 @@ public class Joke {
     }
 
     public Long getJokeId() {
-        return JokeId;
+        return jokeId;
     }
 
     public void setJokeId(Long jokeId) {
-        JokeId = jokeId;
+        this.jokeId = jokeId;
     }
 
     public String getSource() {

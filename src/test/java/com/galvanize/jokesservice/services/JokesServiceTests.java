@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -17,7 +18,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @SpringBootTest
-@Transactional
 @RunWith(SpringRunner.class)
 public class JokesServiceTests {
 
@@ -29,6 +29,8 @@ public class JokesServiceTests {
     public JokesServiceTests() { }
 
     @Before
+    @Transactional
+    @Rollback
     public void setUp() throws Exception {
         Joke joke = null;
         for (int i = 0; i < 10; i++) {
@@ -37,18 +39,21 @@ public class JokesServiceTests {
             if(i%2==0) {
                 joke.setCategory(JokeCategory.DADJOKES);
                 joke.setJoke(String.format("Dad Joke #%s", i));
+                joke.setSource("EVENSOURCE");
             }else {
                 joke.setCategory(JokeCategory.MOMJOKES);
                 joke.setJoke(String.format("Mom Joke #%s", i));
+                joke.setSource("ODDSOURCE");
             }
             jokes.add(joke);
 
-            joke = null;
         }
     }
 
     //Add a new joke
     @Test
+    @Transactional
+    @Rollback
     public void addNewJoke() {
         Joke expectedJoke = new Joke();
         expectedJoke.setSource("somebody@gmail.com");
@@ -65,6 +70,8 @@ public class JokesServiceTests {
 
     //Get a joke by id
     @Test
+    @Transactional
+    @Rollback
     public void getJokeById() {
         jokes.stream().forEach(e -> service.addNewJoke(e));
 
@@ -79,6 +86,8 @@ public class JokesServiceTests {
     //Get a random joke
 
     @Test
+    @Transactional
+    @Rollback
     public void getRandomJoke() {
         jokes.stream().forEach(e -> service.addNewJoke(e));
 
@@ -99,7 +108,52 @@ public class JokesServiceTests {
         assertTrue(actualJokes.size()>1);
     }
 
-    //Get a random joke by source
+    //Get a random joke for category
+    @Test
+    @Transactional
+    @Rollback
+    public void getRandomForCategory() {
+        jokes.stream().forEach(e -> service.addNewJoke(e));
 
-    //Get a random joke by category
+        List<JokeCategory> actualCatagories = new ArrayList<>();
+        List<String> actualJokes = new ArrayList<>();
+        Joke randomJoke;
+        for (int i = 0; i < 10; i++) {
+            randomJoke = service.getRandomJokeForCategory(JokeCategory.DADJOKES);
+            if(!actualCatagories.contains(randomJoke.getCategory())) {
+                actualCatagories.add(randomJoke.getCategory());
+            }
+            if(!actualJokes.contains(randomJoke.getJoke())) {
+                actualJokes.add(randomJoke.getJoke());
+            }
+        }
+        //We should have at least two categories and two jokes
+        assertFalse(actualCatagories.size()>1);
+        assertTrue(actualJokes.size()>1);
+    }
+
+
+    //Get a random joke for source
+    @Test
+    @Transactional
+    @Rollback
+    public void getRandomForSource() {
+        jokes.stream().forEach(e -> service.addNewJoke(e));
+
+        List<JokeCategory> actualSource = new ArrayList<>();
+        List<String> actualJokes = new ArrayList<>();
+        Joke randomJoke;
+        for (int i = 0; i < 10; i++) {
+            randomJoke = service.getRandomJokeForCategory(JokeCategory.DADJOKES);
+            if(!actualSource.contains(randomJoke.getCategory())) {
+                actualSource.add(randomJoke.getCategory());
+            }
+            if(!actualJokes.contains(randomJoke.getJoke())) {
+                actualJokes.add(randomJoke.getJoke());
+            }
+        }
+        //We should have at least two categories and two jokes
+        assertFalse(actualSource.size()>1);
+        assertTrue(actualJokes.size()>1);
+    }
 }
