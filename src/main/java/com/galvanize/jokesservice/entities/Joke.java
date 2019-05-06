@@ -3,7 +3,7 @@ package com.galvanize.jokesservice.entities;
 import javax.persistence.*;
 
 @Entity
-public class Jokes {
+public class Joke {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "JOKE_ID", unique = true, nullable = false)
@@ -18,15 +18,15 @@ public class Jokes {
     @Column(name = "JOKE", columnDefinition = "LONGTEXT")
     private String joke;
 
-    public Jokes() { }
+    public Joke() { }
 
-    public Jokes(String source, String category, String joke) {
+    public Joke(String source, String category, String joke) {
         this.source = source;
         this.category = category;
         this.joke = joke;
     }
 
-    public Jokes(String source) {
+    public Joke(String source) {
         this.source = source;
     }
 

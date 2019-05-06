@@ -1,16 +1,16 @@
 package com.galvanize.jokesservice.services;
 
-import com.galvanize.jokesservice.repositories.JokesRepository;
+import com.galvanize.jokesservice.repositories.JokeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JokesService {
 
-    JokesRepository repo;
+    JokeRepository repo;
 
     @Autowired
-    public JokesService(JokesRepository repo) {
+    public JokesService(JokeRepository repo) {
         this.repo = repo;
     }
 }
