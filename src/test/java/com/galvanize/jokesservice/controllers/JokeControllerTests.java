@@ -2,7 +2,6 @@ package com.galvanize.jokesservice.controllers;
 
 import com.galvanize.jokesservice.entities.Joke;
 import com.galvanize.jokesservice.entities.JokeCategory;
-import com.galvanize.jokesservice.repositories.CategoryRepository;
 import com.galvanize.jokesservice.repositories.JokeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.transaction.Transactional;
 import java.net.URL;
@@ -34,8 +32,6 @@ public class JokeControllerTests {
 
     @Autowired
     JokeRepository jokeRepository;
-    @Autowired
-    CategoryRepository categoryRepository;
 
     @Autowired
     MockMvc mvc;
@@ -153,9 +149,13 @@ public class JokeControllerTests {
 
 
     //Get the categories and descriptions
-
-    //Add a new category
-
+    @Test
+    @Transactional
+    @Rollback
+    public void getCategories() throws Exception{
+        mvc.perform(get("/category"))
+                .andExpect(status().isOk());
+    }
    
     private String getJSON(String path) throws Exception {
         URL url = this.getClass().getResource(path);

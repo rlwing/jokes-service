@@ -1,16 +1,29 @@
 package com.galvanize.jokesservice.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-
-@Entity
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    Long id;
-    @Column(unique = true)
     String shortName;
     String displayName;
+
+    public Category(String shortName, String displayName) {
+        this.shortName = shortName;
+        this.displayName = displayName;
+    }
+
+    public Category() { }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 }

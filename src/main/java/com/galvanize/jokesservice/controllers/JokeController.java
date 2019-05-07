@@ -1,23 +1,21 @@
 package com.galvanize.jokesservice.controllers;
 
+import com.galvanize.jokesservice.entities.Category;
 import com.galvanize.jokesservice.entities.Joke;
-import com.galvanize.jokesservice.repositories.CategoryRepository;
+import com.galvanize.jokesservice.entities.JokeCategory;
 import com.galvanize.jokesservice.repositories.JokeRepository;
-import com.galvanize.jokesservice.services.JokesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class JokeController {
 
-    CategoryRepository categoryRepository;
     JokeRepository jokeRepository;
 
-    public JokeController(CategoryRepository categoryRepository, JokeRepository jokeRepository) {
-        this.categoryRepository = categoryRepository;
+    public JokeController(JokeRepository jokeRepository) {
         this.jokeRepository = jokeRepository;
     }
 
@@ -58,5 +56,16 @@ public class JokeController {
     @GetMapping("/{id}")
     public Joke getJoke(@PathVariable Long id){
         return jokeRepository.findById(id).get();
+    }
+
+    @GetMapping("/category")
+    public List<Category> getCategories(){
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category(JokeCategory.DADJOKES.toString(), JokeCategory.DADJOKES.getType()));
+        categories.add(new Category(JokeCategory.MOMJOKES.toString(), JokeCategory.MOMJOKES.getType()));
+        categories.add(new Category(JokeCategory.KIDJOKES.toString(), JokeCategory.KIDJOKES.getType()));
+        categories.add(new Category(JokeCategory.KNOCKKNOCK.toString(), JokeCategory.KNOCKKNOCK.getType()));
+        categories.add(new Category(JokeCategory.TECHNOLOGY.toString(), JokeCategory.TECHNOLOGY.getType()));
+        return categories;
     }
 }
