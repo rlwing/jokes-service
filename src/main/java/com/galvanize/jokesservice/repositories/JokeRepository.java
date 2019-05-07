@@ -20,4 +20,7 @@ public interface JokeRepository extends JpaRepository<Joke, Long> {
 
     @Query(value = "SELECT * from JOKES j where SOURCE = ?1 order by RAND() LIMIT 1", nativeQuery = true)
     public List<Joke> findRandomJokeForSource(String source);
+
+    @Query(value = "SELECT * from JOKES j where CATEGORY = ?1 and SOURCE = ?2 order by RAND() LIMIT 1", nativeQuery = true)
+    public List<Joke> findRandomJokeForCategoryAndSource(String category, String source);
 }

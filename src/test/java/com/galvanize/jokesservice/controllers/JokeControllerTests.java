@@ -2,8 +2,8 @@ package com.galvanize.jokesservice.controllers;
 
 import com.galvanize.jokesservice.entities.Joke;
 import com.galvanize.jokesservice.entities.JokeCategory;
+import com.galvanize.jokesservice.repositories.CategoryRepository;
 import com.galvanize.jokesservice.repositories.JokeRepository;
-import com.galvanize.jokesservice.services.JokesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,18 +15,16 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.transaction.Transactional;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -35,7 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class JokeControllerTests {
 
     @Autowired
-    JokeRepository repository;
+    JokeRepository jokeRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     MockMvc mvc;
@@ -61,7 +61,7 @@ public class JokeControllerTests {
                 joke.setJoke(String.format("Dad Joke #%s", i));
                 joke.setSource("OTHERSOURCE");
             }
-            repository.save(joke);
+            jokeRepository.save(joke);
         }
     }
 
@@ -84,12 +84,77 @@ public class JokeControllerTests {
     }
 
     //Get a random joke
+    @Test
+    @Transactional
+    @Rollback
+    public void getJokeRandom() throws Exception {
+        mvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke").exists())
+                .andExpect(jsonPath("$.source").exists())
+                .andExpect(jsonPath("$.category").exists())
+                .andExpect(jsonPath("$.jokeId").exists());
+    }
 
-    //Get a random joke by source
+    //Get a random joke for source
+    @Test
+    @Transactional
+    @Rollback
+    public void getJokeRandomForSource() throws Exception {
+        mvc.perform(get("?source=EVENSOURCE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke").exists())
+                .andExpect(jsonPath("$.source", is("EVENSOURCE")))
+                .andExpect(jsonPath("$.category").exists())
+                .andExpect(jsonPath("$.jokeId").exists());
 
-    //Get a random joke by category
+    }
+
+    //Get a random joke for category
+    @Test
+    @Transactional
+    @Rollback
+    public void getRandomForCategory() throws Exception{
+        mvc.perform(get("?category=MOMJOKES"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke").exists())
+                .andExpect(jsonPath("$.source").exists())
+                .andExpect(jsonPath("$.category", is("MOMJOKES")))
+                .andExpect(jsonPath("$.jokeId").exists());
+    }
+
+    //Get a random joke for source and category
+    @Test
+    @Transactional
+    @Rollback
+    public void getRandomForCategoryAndSource() throws Exception{
+        mvc.perform(get("?category=MOMJOKES&source=MODTHREESOURCE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke").exists())
+                .andExpect(jsonPath("$.source", is("MODTHREESOURCE")))
+                .andExpect(jsonPath("$.category", is("MOMJOKES")))
+                .andExpect(jsonPath("$.jokeId").exists());
+    }
 
     //Get a joke by id
+    @Test
+    @Transactional
+    @Rollback
+    public void getJokeById() throws Exception{
+        Joke joke = jokeRepository.findRandomJoke().get(0);
+        String s = String.format("/%s", joke.getJokeId());
+        mvc.perform(get(s))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke", is(joke.getJoke())))
+                .andExpect(jsonPath("$.source", is(joke.getSource())))
+                .andExpect(jsonPath("$.category", is(joke.getCategory().toString())))
+                .andExpect(jsonPath("$.jokeId", is(joke.getJokeId().intValue())));
+    }
+
+
+    //Get the categories and descriptions
+
+    //Add a new category
 
    
     private String getJSON(String path) throws Exception {
