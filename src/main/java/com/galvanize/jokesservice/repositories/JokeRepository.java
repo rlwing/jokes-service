@@ -12,15 +12,15 @@ import java.util.List;
 @Repository
 public interface JokeRepository extends JpaRepository<Joke, Long> {
 
-    @Query(value = "SELECT * from JOKES j order by RAND() LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * from jokes j order by RAND() LIMIT 1", nativeQuery = true)
     public List<Joke> findRandomJoke();
 
-    @Query(value = "SELECT * from JOKES j where CATEGORY = ?1 order by RAND() LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * from jokes j where CATEGORY = ?1 order by RAND() LIMIT 1", nativeQuery = true)
     public List<Joke> findRandomJokeForCategory(String category);
 
-    @Query(value = "SELECT * from JOKES j where SOURCE = ?1 order by RAND() LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * from jokes j where SOURCE = ?1 order by RAND() LIMIT 1", nativeQuery = true)
     public List<Joke> findRandomJokeForSource(String source);
 
-    @Query(value = "SELECT * from JOKES j where CATEGORY = ?1 and SOURCE = ?2 order by RAND() LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * from jokes j where CATEGORY = ?1 and SOURCE = ?2 order by RAND() LIMIT 1", nativeQuery = true)
     public List<Joke> findRandomJokeForCategoryAndSource(String category, String source);
 }
