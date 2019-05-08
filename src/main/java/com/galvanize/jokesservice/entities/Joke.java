@@ -17,6 +17,10 @@ public class Joke {
     @Convert(converter = CategoryConverter.class)
     private JokeCategory category;
 
+//    @Column(name = "CATEGORY")
+//    @JoinColumn(name = "SHORT_NAME")
+//    private Category category;
+
     @Column(name = "JOKE", columnDefinition = "LONGTEXT")
     private String joke;
 

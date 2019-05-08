@@ -1,5 +1,6 @@
 package com.galvanize.jokesservice.controllers;
 
+import com.galvanize.jokesservice.entities.Category;
 import com.galvanize.jokesservice.entities.Joke;
 import com.galvanize.jokesservice.entities.JokeCategory;
 import com.galvanize.jokesservice.repositories.JokeRepository;
