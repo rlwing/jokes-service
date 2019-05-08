@@ -1,5 +1,16 @@
 version: 0.2
 
+env:
+  variables:
+    JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
+    AWS_DEFAULT_REGION: "us-east-1"
+    IMAGE_REPO_NAME: "user-management"
+    IMAGE_TAG: "latest"
+  parameter-store:
+    AWS_ACCOUNT_ID: "/CB/AWS/AID"
+    AWS_ACCESS_KEY_ID: "/CB/AWS/AKI"
+    AWS_SECRET_ACCESS_KEY: "/CB/AWS/AKS"
+
 
 phases:
   install:
