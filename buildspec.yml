@@ -36,16 +36,13 @@ phases:
       - echo This always runs even if the install command fails
   post_build:
     commands:
+      - echo Entered the post_build phase on `date`
       - echo Entered the post_build phase...
-      - echo Build completed on `date`
-      post_build:
-        commands:
-          - echo Entered the post_build phase...
-          - echo Building the docker image..
-          - docker build -f Dockerfile -t $IMAGE_REPO_NAME .
-          - echo Pushing the docker image to the ECR..
-          - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-          - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - echo Building the docker image..
+      - docker build -f Dockerfile -t $IMAGE_REPO_NAME .
+      - echo Pushing the docker image to the ECR..
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
 artifacts:
   files:
     #- target/messageUtil-1.0.jar
