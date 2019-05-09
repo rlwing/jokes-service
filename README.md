@@ -42,7 +42,7 @@ NOTE: Doesn't check for existing joke, so duplicates are possible.
 ```
 #### GET random joke - http://host:port/[?category=??? | source=???]
 Category and source are optional.  Both can be included to narrow field of jokes to none, one, or both Request Parameters
-#### GET joke by id - http://host:port/<id>
+#### GET joke by id - http://host:port/id
 Example http://3.215.21.188:8080/1848
 #### Response Payload
 ````
