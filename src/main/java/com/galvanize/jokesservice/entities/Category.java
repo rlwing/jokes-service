@@ -36,4 +36,8 @@ public class Category {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
+    public void doNothing(){
+        //Dummy command to force rebuild.
+    }
 }
