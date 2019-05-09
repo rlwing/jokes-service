@@ -78,7 +78,7 @@ public class JokeControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.joke", is("Why did the chicken cross the road?\nTo get to the other side!")))
                 .andExpect(jsonPath("$.source", is("JsonFile")))
-                .andExpect(jsonPath("$.category", is("KIDJOKESx")))
+                .andExpect(jsonPath("$.category", is("KIDJOKES")))
                 .andExpect(jsonPath("$.jokeId").exists());
     }
 
