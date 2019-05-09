@@ -37,7 +37,5 @@ public class Category {
         this.displayName = displayName;
     }
 
-    public void doNothing(){
-        //Dummy command to force rebuild.
-    }
+
 }
