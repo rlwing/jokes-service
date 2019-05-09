@@ -34,20 +34,24 @@ NOTE: Doesn't check for existing joke, so duplicates are possible.
 #### RESPONSE PAYLOAD
 ```
 {
+    "joke_id": 33
 	"category": "DADJOKES",
 	"source": "https://www.rd.com/jokes/dad/",
 	"joke": "Q. Did you hear about the cheese factory that exploded in France?\nA. There was nothing left but de Brie."
 }
 ```
-#### GET random joke - http:host:port/[?category=??? | source=???]
+#### GET random joke - http://host:port/[?category=??? | source=???]
 Category and source are optional.  Both can be included to narrow field of jokes to none, one, or both Request Parameters
+#### GET joke by id - http://host:port/<id>
+Example http://3.215.21.188:8080/1848
+#### Response Payload
+````
+{
+    "jokeId": 1848,
+    "source": "https://www.rd.com/jokes/dad/",
+    "category": "DADJOKES",
+    "joke": "Q. Did you hear about the cheese factory that exploded in France?\nA. There was nothing left but de Brie."
+}
+````
 
 #### GET all categories - http://host:port/category
-### Comming Soon
-#### POST New Category - http://host:port/category
-```
-{
-  "short_name": "DADJOKES"
-  "display_name": "Jokes your father might have told"
-}
-```
