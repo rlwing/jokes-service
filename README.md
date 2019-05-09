@@ -45,7 +45,9 @@ Category and source are optional.  Both can be included to narrow field of jokes
 #### GET all categories - http://host:port/category
 ### Comming Soon
 #### POST New Category - http://host:port/category
+```
 {
   "short_name": "DADJOKES"
   "display_name": "Jokes your father might have told"
 }
+```
