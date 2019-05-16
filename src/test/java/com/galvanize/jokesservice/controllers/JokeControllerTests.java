@@ -1,5 +1,6 @@
 package com.galvanize.jokesservice.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galvanize.jokesservice.entities.Category;
 import com.galvanize.jokesservice.entities.Joke;
 import com.galvanize.jokesservice.entities.JokeCategory;
@@ -15,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import javax.transaction.Transactional;
@@ -23,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -76,10 +79,8 @@ public class JokeControllerTests {
     @Test
     @Transactional
     @Rollback
-    public void addNewJoke() throws Exception{
-
+    public void addNewJokeString() throws Exception{
         String json = "{ \"source\" : \"JunitTest\", \"category\" : \"KIDJOKES\", \"joke\" : \"Why did the chicken cross the road? To get to the other side!\" }";
-//        String json = getJSON("/joke.json");
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json);
@@ -90,6 +91,44 @@ public class JokeControllerTests {
                 .andExpect(jsonPath("$.source", is("JunitTest")))
                 .andExpect(jsonPath("$.category", is("KIDJOKES")))
                 .andExpect(jsonPath("$.jokeId").exists());
+
+    }
+
+    //Add a new joke
+    @Test
+    @Transactional
+    @Rollback
+    public void addNewJokeFile() throws Exception{
+        String json = getJSON("/joke.json");
+        MockHttpServletRequestBuilder request = post("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke", is("Why did the chicken cross the road? To get to the other side!")))
+                .andExpect(jsonPath("$.source", is("JunitTest")))
+                .andExpect(jsonPath("$.category", is("KIDJOKES")))
+                .andExpect(jsonPath("$.jokeId").exists());
+
+    }
+
+    //Add a new joke
+    @Test
+    @Transactional
+    @Rollback
+    public void addNewJokeObject() throws Exception{
+        String json = "{ \"source\" : \"JunitTest\", \"category\" : \"KIDJOKES\", \"joke\" : \"Why did the chicken cross the road? To get to the other side!\" }";
+        MockHttpServletRequestBuilder request = post("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        MvcResult result = mvc.perform(request).andReturn();
+        ObjectMapper m = new ObjectMapper();
+        Joke j = m.readValue(result.getResponse().getContentAsString(), Joke.class);
+        assertEquals("JunitTest", j.getSource());
+        assertEquals(JokeCategory.KIDJOKES, j.getCategory());
+        assertEquals("Why did the chicken cross the road? To get to the other side!", j.getJoke());
     }
 
     //Get a random joke
