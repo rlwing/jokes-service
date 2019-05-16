@@ -74,6 +74,21 @@ public class JokeControllerTests {
             "}";
 
 
+    //Add a new joke
+    @Test
+    @Transactional
+    @Rollback
+    public void addNewJokeSimple() throws Exception{
+        String json = "{ \"source\" : \"JunitTest\", \"category\" : \"KIDJOKES\", \"joke\" : \"Why did the chicken cross the road? To get to the other side!\" }";
+        mvc.perform(post("/")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.joke", is("Why did the chicken cross the road? To get to the other side!")))
+                .andExpect(jsonPath("$.source", is("JunitTest")))
+                .andExpect(jsonPath("$.category", is("KIDJOKES")))
+                .andExpect(jsonPath("$.jokeId").exists());;
+    }
 
     //Add a new joke
     @Test
@@ -83,6 +98,7 @@ public class JokeControllerTests {
         String json = "{ \"source\" : \"JunitTest\", \"category\" : \"KIDJOKES\", \"joke\" : \"Why did the chicken cross the road? To get to the other side!\" }";
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(json);
 
         mvc.perform(request)
@@ -91,6 +107,8 @@ public class JokeControllerTests {
                 .andExpect(jsonPath("$.source", is("JunitTest")))
                 .andExpect(jsonPath("$.category", is("KIDJOKES")))
                 .andExpect(jsonPath("$.jokeId").exists());
+
+
 
     }
 
