@@ -64,20 +64,30 @@ public class JokeControllerTests {
         }
     }
 
+    String json = "{\n" +
+            "  \"source\": \"JsonFile\",\n" +
+            "  \"category\": \"KIDJOKES\",\n" +
+            "  \"joke\": \"Why did the chicken cross the road?\\nTo get to the other side!\"\n" +
+            "}";
+
+
+
     //Add a new joke
     @Test
     @Transactional
     @Rollback
     public void addNewJoke() throws Exception{
-        String json = getJSON("/joke.json");
+
+        String json = "{ \"source\" : \"JunitTest\", \"category\" : \"KIDJOKES\", \"joke\" : \"Why did the chicken cross the road? To get to the other side!\" }";
+//        String json = getJSON("/joke.json");
         MockHttpServletRequestBuilder request = post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json);
 
         mvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.joke", is("Why did the chicken cross the road?\nTo get to the other side!")))
-                .andExpect(jsonPath("$.source", is("JsonFile")))
+                .andExpect(jsonPath("$.joke", is("Why did the chicken cross the road? To get to the other side!")))
+                .andExpect(jsonPath("$.source", is("JunitTest")))
                 .andExpect(jsonPath("$.category", is("KIDJOKES")))
                 .andExpect(jsonPath("$.jokeId").exists());
     }

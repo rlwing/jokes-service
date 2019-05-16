@@ -1,5 +1,5 @@
 {
-  "source": "JsonFile",
+  "source": "JunitTest",
   "category": "KIDJOKES",
-  "joke": "Why did the chicken cross the road?\nTo get to the other side!"
+  "joke": "Why did the chicken cross the road? To get to the other side!"
 }
