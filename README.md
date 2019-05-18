@@ -55,7 +55,3 @@ Example http://3.215.21.188:8080/1848
 ````
 
 #### GET all categories - http://host:port/category
-
-new line of text
-another new line of text
-and one more new line at 2:43pm EDT
