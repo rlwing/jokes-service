@@ -1,0 +1,24 @@
+{
+  "addons": [
+    "jawsdb"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/gradle"
+    }
+  ],
+  "env": {
+    "JAWSDB_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "jokes-service",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
