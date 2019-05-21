@@ -4,6 +4,7 @@ import com.galvanize.jokesservice.entities.Category;
 import com.galvanize.jokesservice.entities.Joke;
 import com.galvanize.jokesservice.entities.JokeCategory;
 import com.galvanize.jokesservice.repositories.JokeRepository;
+import com.galvanize.jokesservice.services.JokesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +15,18 @@ import java.util.List;
 public class JokeController {
 
     JokeRepository jokeRepository;
-
-    public JokeController(JokeRepository jokeRepository) {
-        this.jokeRepository = jokeRepository;
-    }
+    JokesService jokesService;
 
     @Autowired
-
+    public JokeController(JokeRepository jokeRepository, JokesService jokesService) {
+        this.jokeRepository = jokeRepository;
+        this.jokesService = jokesService;
+    }
 
     @GetMapping("/all")
     public List<Joke> getAllJokes(){
         List<Joke> jokeList = jokeRepository.findAll();
+        List<Joke> jokeList1 = jokesService.findAllJokes();
         return jokeList;
     }
 

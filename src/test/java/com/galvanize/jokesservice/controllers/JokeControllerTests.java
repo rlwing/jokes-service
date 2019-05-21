@@ -67,12 +67,11 @@ public class JokeControllerTests {
         }
     }
 
-    String json = "{\n" +
-            "  \"source\": \"JsonFile\",\n" +
-            "  \"category\": \"KIDJOKES\",\n" +
-            "  \"joke\": \"Why did the chicken cross the road?\\nTo get to the other side!\"\n" +
-            "}";
-
+    @Test
+    public void findAllTests() throws Exception {
+        mvc.perform(get("/"))
+                .andExpect(status().isOk());
+    }
 
     //Add a new joke
     @Test
@@ -107,8 +106,6 @@ public class JokeControllerTests {
                 .andExpect(jsonPath("$.source", is("JunitTest")))
                 .andExpect(jsonPath("$.category", is("KIDJOKES")))
                 .andExpect(jsonPath("$.jokeId").exists());
-
-
 
     }
 
